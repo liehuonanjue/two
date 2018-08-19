@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTDConfig 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"></properties>   <!-- 配置连接数据库的四要素-->
+
+    <typeAliases>
+        <package name="pojo"></package>
+    </typeAliases>
+
+    <!--设置mybatis运行环境 default默认运行环境是environment节点中的id  -->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--设置事务管理   后续ssm整合就交给Spring去管理-->
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">  <!--配置数据源 POOLED：mybatis自带的数据源  JNDI:tomcat中的数据源-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--管理我们设置的映射文件-->
+        <mapper resource="dao/userDaoImpl/Userxml.xml"></mapper>
+    </mappers>
+</configuration>

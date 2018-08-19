@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTDConfig 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.userDaoImpl.IuserDap">
+
+    <!-- 登陆@Param來带参 也可以用下标形式 给多个条件-->
+    <select id="login" resultMap="usersMap">
+        <include refid="UserSelect"/>
+        WHERE userName=#{name} AND password=#{pwd}
+    </select>
+
+
+    <!--查询全部-->
+    <select id="findAll" resultMap="usersMap">
+        <include refid="UserSelect"/>
+    </select>
+
+
+    <!-- 根据条件查询 当没有固定参数时 可以随便写  仅限一个-->
+    <select id="findByCondition" resultMap="usersMap">
+        <include refid="UserSelect"/>
+        WHERE id=#{xxx}
+    </select>
+
+
+
+    <!--按照条件删除-->
+    <delete id="deleteByCondition">
+        DELETE FROM users WHERE id=#{xxx}
+    </delete>
+
+    <!--修改 获取实体类的属性  类似于el表达式 用#可以防止注入-->
+    <update id="update" parameterType="Usere">
+        UPDATE users	 SET userName=#{userName} WHERE id =#{uwerId}
+    </update>
+
+    <!--自己声明值与系统匹配  id 給自己声明的名字方便别人调用   type实体名  property 本地实体的属性名   column 数据库的键名-->
+    <resultMap id="usersMap" type="Usere">
+        <id property="uwerId" column="id"></id>
+        <result property="userName" column="userName"></result>
+        <result property="userpwd" column="password"></result>
+    </resultMap>
+
+    <!--声明一个sql 防止数据冗余-->
+    <sql id="UserSelect">
+   SELECT  id,userName,`password` FROM users
+    </sql>
+</mapper>
